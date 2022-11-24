@@ -5,15 +5,20 @@ class FormUser extends PureComponent {
   handleSubmit = (e) => {
     e.preventDefault();
   };
+
   handleInput = (e) => {
     const { id, value } = e.target;
     let newValues = this.props.values;
     newValues[id] = value;
-    console.log(newValues);
+
+    const action = {
+      type: "CHANGE_INPUT",
+      payload: newValues,
+    };
+    this.props.dispatch(action);
   };
 
   render() {
-    console.log(this.props.values);
     return (
       <form className="card" onSubmit={this.handleSubmit}>
         <h3 className="card-header bg-dark text-light">Thông tin sinh viên</h3>

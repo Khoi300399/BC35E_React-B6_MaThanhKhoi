@@ -7,14 +7,14 @@ const arr = [
   },
 ];
 
-const value = {
+let value = {
   id: 1,
   name: "userA",
   phone: "012345678",
   email: "khoimtk321@gmail.com",
 };
 
-const error = {
+let error = {
   id: "",
   name: "",
   phone: "",
@@ -22,6 +22,7 @@ const error = {
 };
 
 export const arrUser = (state = arr, action) => {
+  return { ...state };
   //   switch (action.type) {
   //     case "ADD-USER": {
   //       return state;
@@ -32,10 +33,18 @@ export const arrUser = (state = arr, action) => {
 };
 
 export const values = (state = value, action) => {
-  return { ...state };
+  switch (action.type) {
+    case "CHANGE_INPUT": {
+      state = action.payload;
+      return { ...state };
+    }
+    default:
+      return { ...state };
+  }
 };
 
 export const errors = (state = error, action) => {
+  return { ...state };
   //   switch (action.type) {
   //     case "ADD-USER": {
   //       return state;
@@ -46,6 +55,7 @@ export const errors = (state = error, action) => {
 };
 
 export const valid = (state = false, action) => {
+  return { ...state };
   //   switch (action.type) {
   //     case "VALID": {
   //       state = action.payload;

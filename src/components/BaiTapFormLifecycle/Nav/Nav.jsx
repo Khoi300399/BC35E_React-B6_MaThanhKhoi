@@ -9,7 +9,7 @@ export default class Nav extends Component {
       <div>
         <Header />
         <Outlet />
-        <Footer />
+        {/* <Footer /> */}
       </div>
     );
   }
