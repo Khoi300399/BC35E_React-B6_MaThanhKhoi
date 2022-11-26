@@ -16,7 +16,11 @@ class TableUser extends Component {
   editUser = (idClick) => {
     let newArr = [...this.props.arrUser];
     let changeObj = newArr.find((user) => user.id === idClick);
-    document.getElementById("id").value = changeObj.id;
+    const action = {
+      type: "EDIT_USER",
+      payload: changeObj,
+    };
+    this.props.dispatch(action);
   };
 
   render() {
@@ -47,11 +51,16 @@ class TableUser extends Component {
                         this.deleteUser(id);
                       }}
                     >
-                      <i class="fa-solid fa-trash-can me-2"></i>
+                      <i className="fa-solid fa-trash-can me-2" />
                       Delete
                     </button>
                     <button className="btn btn-info">
-                      <i class="fa-solid fa-pen-to-square me-2"></i>
+                      <i
+                        className="fa-solid fa-pen-to-square me-2"
+                        onClick={() => {
+                          this.editUser(id);
+                        }}
+                      />
                       Edit
                     </button>
                   </td>
@@ -66,7 +75,7 @@ class TableUser extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  arrUser: state.arrUser,
+  arrUser: state.userReducer.arrUser,
 });
 
 export default connect(mapStateToProps)(TableUser);

@@ -1,18 +1,40 @@
-const arr = [];
+/* eslint-disable no-fallthrough */
+const stateDefault = {
+  arrUser: [
+    {
+      id: "111",
+      name: "abc",
+      phone: "0000",
+      email: "hoa@gm.co",
+    },
+  ],
 
-let editUser = {};
+  editUser: {
+    id: "",
+    name: "",
+    phone: "",
+    email: "",
+  },
+};
 
-export const arrUser = (state = arr, action) => {
+export const userReducer = (state = stateDefault, action) => {
   switch (action.type) {
     case "ADD_USER": {
-      state = action.payload;
-      return state;
     }
 
     case "DELETE_USER": {
-      state = action.payload;
-      return state;
+      let newState = { ...state };
+      newState.arrUser = action.payload;
+      return { ...newState };
     }
+
+    case "EDIT_USER": {
+      let newState = { ...state };
+      newState.editUser = action.payload;
+      console.log(newState);
+      return { ...newState };
+    }
+
     default:
       return state;
   }

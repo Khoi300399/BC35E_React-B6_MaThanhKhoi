@@ -24,6 +24,15 @@ class FormUser extends PureComponent {
     };
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    console.log("prevProps.editUser", prevProps.editUser);
+    if (prevProps.editUser !== this.props.editUser) {
+      this.setState({
+        values: this.props.editUser,
+      });
+    }
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
 
@@ -184,7 +193,8 @@ class FormUser extends PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  arrUser: state.arrUser,
+  arrUser: state.userReducer.arrUser,
+  editUser: state.userReducer.editUser,
 });
 
 export default connect(mapStateToProps)(FormUser);
