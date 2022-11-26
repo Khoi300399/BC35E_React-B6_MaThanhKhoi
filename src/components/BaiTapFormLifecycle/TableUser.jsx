@@ -1,6 +1,24 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 class TableUser extends Component {
+  deleteUser = (idClick) => {
+    let newArr = [...this.props.arrUser];
+    let index = newArr.findIndex((user) => user.id === idClick);
+    newArr.splice(index, 1);
+    const action = {
+      type: "DELETE_USER",
+      payload: newArr,
+    };
+
+    this.props.dispatch(action);
+  };
+
+  editUser = (idClick) => {
+    let newArr = [...this.props.arrUser];
+    let changeObj = newArr.find((user) => user.id === idClick);
+    document.getElementById("id").value = changeObj.id;
+  };
+
   render() {
     return (
       <>
@@ -11,6 +29,7 @@ class TableUser extends Component {
               <th>Số điện thoại</th>
               <th>Họ tên</th>
               <th>Email</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -21,6 +40,21 @@ class TableUser extends Component {
                   <td>{phone}</td>
                   <td>{name}</td>
                   <td>{email}</td>
+                  <td>
+                    <button
+                      className="btn btn-danger mx-2"
+                      onClick={() => {
+                        this.deleteUser(id);
+                      }}
+                    >
+                      <i class="fa-solid fa-trash-can me-2"></i>
+                      Delete
+                    </button>
+                    <button className="btn btn-info">
+                      <i class="fa-solid fa-pen-to-square me-2"></i>
+                      Edit
+                    </button>
+                  </td>
                 </tr>
               );
             })}
