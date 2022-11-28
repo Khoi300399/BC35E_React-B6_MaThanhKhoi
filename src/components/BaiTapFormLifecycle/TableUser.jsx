@@ -54,13 +54,13 @@ class TableUser extends Component {
                       <i className="fa-solid fa-trash-can me-2" />
                       Delete
                     </button>
-                    <button className="btn btn-info">
-                      <i
-                        className="fa-solid fa-pen-to-square me-2"
-                        onClick={() => {
-                          this.editUser(id);
-                        }}
-                      />
+                    <button
+                      className="btn btn-info"
+                      onClick={() => {
+                        return this.editUser(id);
+                      }}
+                    >
+                      <i className="fa-solid fa-pen-to-square me-2" />
                       Edit
                     </button>
                   </td>

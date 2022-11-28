@@ -25,8 +25,10 @@ class FormUser extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("prevProps.editUser", prevProps.editUser);
-    if (prevProps.editUser !== this.props.editUser) {
+    if (
+      this.props.editUser.id &&
+      prevProps.editUser.id !== this.props.editUser.id
+    ) {
       this.setState({
         values: this.props.editUser,
       });
@@ -48,6 +50,19 @@ class FormUser extends PureComponent {
     };
 
     this.props.dispatch(action);
+  };
+
+  updateUser = () => {
+    const action = {
+      type: "UPDATE_USER",
+      payload: {
+        id: this.state.values.id,
+        name: this.state.values.name,
+        phone: this.state.values.phone,
+        email: this.state.values.email,
+      },
+    };
+    this.props.dispatch({ ...action });
   };
 
   checkValidSubmit = () => {
@@ -118,6 +133,7 @@ class FormUser extends PureComponent {
 
   render() {
     let { id, name, phone, email } = this.state.errors;
+    let { values } = this.state;
     return (
       <>
         <form className="card" onSubmit={this.handleSubmit}>
@@ -136,6 +152,8 @@ class FormUser extends PureComponent {
                     onInput={this.handleInput}
                     data-type="number"
                     data-max-length="6"
+                    value={values.id}
+                    disabled={!!this.props.editUser.id}
                   />
                   {id && <div className="alert alert-danger">{id}</div>}
                 </div>
@@ -147,6 +165,7 @@ class FormUser extends PureComponent {
                     type="text"
                     onInput={this.handleInput}
                     data-type="number"
+                    value={values.phone}
                   />
                   {phone && <div className="alert alert-danger">{phone}</div>}
                 </div>
@@ -160,6 +179,7 @@ class FormUser extends PureComponent {
                     type="text"
                     onInput={this.handleInput}
                     data-type="letter"
+                    value={values.name}
                   />
                   {name && <div className="alert alert-danger">{name}</div>}
                 </div>
@@ -171,6 +191,7 @@ class FormUser extends PureComponent {
                     type="text"
                     onInput={this.handleInput}
                     data-type="email"
+                    value={values.email}
                   />
                   {email && <div className="alert alert-danger">{email}</div>}
                 </div>
@@ -180,10 +201,24 @@ class FormUser extends PureComponent {
           <div className="card-footer">
             <button
               type="submit"
-              className="btn btn-success"
-              disabled={!this.state.valid}
+              className="btn btn-success mx-2"
+              disabled={!this.state.valid || !!this.props.editUser.id}
             >
               Thêm sinh viên
+            </button>
+            <button
+              type="submit"
+              className="btn btn-warning mx-2"
+              style={
+                this.props.editUser.id
+                  ? { display: "inline-block" }
+                  : { display: "none" }
+              }
+              onClick={() => {
+                this.updateUser();
+              }}
+            >
+              Cập nhật
             </button>
           </div>
         </form>

@@ -31,7 +31,16 @@ export const userReducer = (state = stateDefault, action) => {
     case "EDIT_USER": {
       let newState = { ...state };
       newState.editUser = action.payload;
-      console.log(newState);
+      return { ...newState };
+    }
+
+    case "UPDATE_USER": {
+      let newState = { ...state };
+      let { arrUser } = newState;
+      let index = arrUser.findIndex((user) => user.id === action.payload.id);
+      arrUser[index] = { ...action.payload };
+      arrUser.splice(index, 1);
+      console.log(arrUser);
       return { ...newState };
     }
 
