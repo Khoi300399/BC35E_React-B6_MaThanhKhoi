@@ -35,13 +35,15 @@ export const userReducer = (state = stateDefault, action) => {
     }
 
     case "UPDATE_USER": {
-      let newState = { ...state };
-      let { arrUser } = newState;
+      let arrUser = [...state.arrUser];
+
       let index = arrUser.findIndex((user) => user.id === action.payload.id);
-      arrUser[index] = { ...action.payload };
-      arrUser.splice(index, 1);
-      console.log(arrUser);
-      return { ...newState };
+
+      if (index !== -1) {
+        arrUser.splice(index, 1);
+      }
+
+      return { ...state, arrUser };
     }
 
     default:

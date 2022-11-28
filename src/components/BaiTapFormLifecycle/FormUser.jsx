@@ -53,14 +53,10 @@ class FormUser extends PureComponent {
   };
 
   updateUser = () => {
+    let newVlaues = { ...this.state.values };
     const action = {
       type: "UPDATE_USER",
-      payload: {
-        id: this.state.values.id,
-        name: this.state.values.name,
-        phone: this.state.values.phone,
-        email: this.state.values.email,
-      },
+      payload: newVlaues,
     };
     this.props.dispatch({ ...action });
   };
