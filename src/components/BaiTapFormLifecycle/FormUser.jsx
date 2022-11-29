@@ -59,7 +59,7 @@ class FormUser extends PureComponent {
     };
     this.props.dispatch(action);
 
-    localStorage.setItem("arrUser", JSON.stringify(arrUser));
+    // localStorage.setItem("arrUser", JSON.stringify(arrUser));
   };
 
   updateUser = () => {
@@ -227,23 +227,22 @@ class FormUser extends PureComponent {
             >
               Thêm sinh viên
             </button>
-            <button
-              type="submit"
-              className="btn btn-warning mx-2"
-              style={
-                this.props.editUser.id
-                  ? { display: "inline-block" }
-                  : { display: "none" }
-              }
-              disabled={!this.state.disabledUpdate}
-              onClick={() => {
-                this.updateUser();
-              }}
-            >
-              Cập nhật
-            </button>
           </div>
         </form>
+        <button
+          className="btn btn-warning mx-2"
+          style={
+            this.props.editUser.id
+              ? { display: "inline-block" }
+              : { display: "none" }
+          }
+          disabled={!this.state.disabledUpdate}
+          onClick={() => {
+            this.updateUser();
+          }}
+        >
+          Cập nhật
+        </button>
       </>
     );
   }
