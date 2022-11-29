@@ -59,7 +59,7 @@ class FormUser extends PureComponent {
     };
     this.props.dispatch(action);
 
-    // localStorage.setItem("arrUser", JSON.stringify(arrUser));
+    localStorage.setItem("arrUser", JSON.stringify(arrUser));
   };
 
   updateUser = () => {
@@ -70,6 +70,14 @@ class FormUser extends PureComponent {
       payload: newValues,
     };
     this.props.dispatch(action);
+    this.setState({
+      values: {
+        id: "",
+        name: "",
+        phone: "",
+        email: "",
+      },
+    });
   };
 
   checkValidSubmit = () => {
@@ -106,6 +114,7 @@ class FormUser extends PureComponent {
     let message = "";
     let dataType = e.target.getAttribute("data-type");
     let maxLength = e.target.getAttribute("data-max-length");
+    let dataTaken = e.target.getAttribute("data-taken");
 
     if (value.trim() === "") {
       message = id + " cannot be blank !";
@@ -134,6 +143,14 @@ class FormUser extends PureComponent {
 
       if (maxLength !== null && value.length > maxLength) {
         message = id + ` không vượt quá ${maxLength} ký tự`;
+      }
+
+      if (dataTaken === "taken") {
+        let arrUser = [...this.props.arrUser];
+        let index = arrUser.findIndex((user) => user.id === newValues["id"]);
+        if (index !== -1) {
+          message = "This id has been taken. Please try another.";
+        }
       }
     }
     newErrors[id] = message;
@@ -172,6 +189,7 @@ class FormUser extends PureComponent {
                     type="text"
                     onInput={this.handleInput}
                     data-type="number"
+                    data-taken="taken"
                     data-max-length="6"
                     value={values.id}
                     disabled={!!this.props.editUser.id}

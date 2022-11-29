@@ -12,7 +12,7 @@ class TableUser extends PureComponent {
       payload: arrUser,
     };
     this.props.dispatch(action);
-    // localStorage.setItem("arrUser", JSON.stringify(arrUser));
+    localStorage.setItem("arrUser", JSON.stringify(arrUser));
   };
 
   editUser = (idClick) => {

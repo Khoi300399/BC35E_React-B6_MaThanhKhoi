@@ -1,6 +1,8 @@
 /* eslint-disable no-fallthrough */
 const stateDefault = {
-  arrUser: [],
+  arrUser: localStorage.getItem("arrUser")
+    ? JSON.parse(localStorage.getItem("arrUser"))
+    : [],
 
   editUser: {
     id: "",
