@@ -1,13 +1,8 @@
 /* eslint-disable no-fallthrough */
 const stateDefault = {
-  arrUser: [
-    {
-      id: "111",
-      name: "abc",
-      phone: "0000",
-      email: "hoa@gm.co",
-    },
-  ],
+  arrUser: localStorage.getItem("arrUser")
+    ? JSON.parse(localStorage.getItem("arrUser"))
+    : [],
 
   editUser: {
     id: "",
@@ -20,12 +15,15 @@ const stateDefault = {
 export const userReducer = (state = stateDefault, action) => {
   switch (action.type) {
     case "ADD_USER": {
-    }
-
-    case "DELETE_USER": {
       let newState = { ...state };
       newState.arrUser = action.payload;
       return { ...newState };
+    }
+
+    case "DELETE_USER": {
+      let arrUser = [...state.arrUser];
+      arrUser = action.payload;
+      return { ...state, arrUser };
     }
 
     case "EDIT_USER": {
@@ -35,15 +33,20 @@ export const userReducer = (state = stateDefault, action) => {
     }
 
     case "UPDATE_USER": {
+      // let newState = { ...state };
       let arrUser = [...state.arrUser];
-
+      console.log(state, "arrUser old", arrUser);
       let index = arrUser.findIndex((user) => user.id === action.payload.id);
-
+      console.log({ index });
       if (index !== -1) {
         arrUser.splice(index, 1);
+        console.log(arrUser);
       }
 
-      return { ...state, arrUser };
+      return {
+        ...state,
+        arrUser,
+      };
     }
 
     default:

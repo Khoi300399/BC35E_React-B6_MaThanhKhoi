@@ -21,10 +21,11 @@ class FormUser extends PureComponent {
       },
 
       valid: false,
+      disabledUpdate: false,
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (
       this.props.editUser.id &&
       prevProps.editUser.id !== this.props.editUser.id
@@ -39,26 +40,36 @@ class FormUser extends PureComponent {
     e.preventDefault();
 
     this.addUser();
+    this.setState({
+      values: {
+        id: "",
+        name: "",
+        phone: "",
+        email: "",
+      },
+    });
   };
 
   addUser = () => {
-    let newArr = [...this.props.arrUser];
-    newArr.push({ ...this.state.values });
+    let arrUser = [...this.props.arrUser];
+    arrUser.push({ ...this.state.values });
     const action = {
       type: "ADD_USER",
-      payload: newArr,
+      payload: arrUser,
     };
-
     this.props.dispatch(action);
+
+    localStorage.setItem("arrUser", JSON.stringify(arrUser));
   };
 
   updateUser = () => {
-    let newVlaues = { ...this.state.values };
+    let newValues = { ...this.state.values };
+    console.log({ newValues });
     const action = {
       type: "UPDATE_USER",
-      payload: newVlaues,
+      payload: newValues,
     };
-    this.props.dispatch({ ...action });
+    this.props.dispatch(action);
   };
 
   checkValidSubmit = () => {
@@ -70,6 +81,19 @@ class FormUser extends PureComponent {
       }
     }
     return true;
+  };
+
+  checkValidUpdate = (id, value) => {
+    let newValue = { ...this.state.values };
+    if (newValue[id] !== value) {
+      this.setState({
+        disabledUpdate: true,
+      });
+    } else {
+      this.setState({
+        disabledUpdate: false,
+      });
+    }
   };
 
   handleInput = (e) => {
@@ -125,6 +149,7 @@ class FormUser extends PureComponent {
         });
       }
     );
+    this.checkValidUpdate(id, value);
   };
 
   render() {
@@ -210,6 +235,7 @@ class FormUser extends PureComponent {
                   ? { display: "inline-block" }
                   : { display: "none" }
               }
+              disabled={!this.state.disabledUpdate}
               onClick={() => {
                 this.updateUser();
               }}

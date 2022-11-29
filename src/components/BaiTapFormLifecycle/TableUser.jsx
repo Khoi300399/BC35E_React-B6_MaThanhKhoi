@@ -1,21 +1,23 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-class TableUser extends Component {
+class TableUser extends PureComponent {
   deleteUser = (idClick) => {
-    let newArr = [...this.props.arrUser];
-    let index = newArr.findIndex((user) => user.id === idClick);
-    newArr.splice(index, 1);
+    let arrUser = [...this.props.arrUser];
+    let index = arrUser.findIndex((user) => user.id === idClick);
+    if (index !== -1) {
+      arrUser.splice(index, 1);
+    }
     const action = {
       type: "DELETE_USER",
-      payload: newArr,
+      payload: arrUser,
     };
-
     this.props.dispatch(action);
+    localStorage.setItem("arrUser", JSON.stringify(arrUser));
   };
 
   editUser = (idClick) => {
-    let newArr = [...this.props.arrUser];
-    let changeObj = newArr.find((user) => user.id === idClick);
+    let arrUser = [...this.props.arrUser];
+    let changeObj = arrUser.find((user) => user.id === idClick);
     const action = {
       type: "EDIT_USER",
       payload: changeObj,
@@ -24,6 +26,7 @@ class TableUser extends Component {
   };
 
   render() {
+    const arrUser = this.props.arrUser;
     return (
       <>
         <table className="table">
@@ -37,7 +40,7 @@ class TableUser extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.arrUser.map(({ id, name, phone, email }, index) => {
+            {arrUser.map(({ id, name, phone, email }, index) => {
               return (
                 <tr key={index}>
                   <td>{id}</td>
